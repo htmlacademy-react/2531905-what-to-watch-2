@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import {FilmListItem} from '@/types';
 import {AppRoute} from '@/constants';
 
-
 type CardProps = {
   film: FilmListItem;
 }
