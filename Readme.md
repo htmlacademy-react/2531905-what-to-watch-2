@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Артур Арутюнов](https://up.htmlacademy.ru/react-individual/2/user/2531905).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Хабиров](https://htmlacademy.ru/profile/alex_khab).
 
 ---
 
