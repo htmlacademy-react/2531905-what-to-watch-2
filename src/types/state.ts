@@ -1,14 +1,17 @@
 import {store} from '@/store';
 import {AxiosInstance} from 'axios';
-import {RejectedWithValueActionFromAsyncThunk} from '@reduxjs/toolkit/dist/matchers';
+import {RouterType} from '@/router';
 
 export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
 export type ThunkOptions = {
-  extra: AxiosInstance;
+  extra: {
+    api: AxiosInstance;
+    router: RouterType;
+  };
   dispatch?: AppDispatch;
   state?: State;
-  rejectWithValue?: RejectedWithValueActionFromAsyncThunk<never>;
+  rejectWithValue?: () => void;
 }

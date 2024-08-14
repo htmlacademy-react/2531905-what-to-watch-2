@@ -1,16 +1,15 @@
 import clsx from 'clsx';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {getFilms, getSelectedGenre} from '@/store/film/selectors';
+import {getGenres, getSelectedGenre} from '@/store/film/selectors';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {changeFilmsLimit, setSelectedGenre} from '@/store/film/film';
 import {FilmCountDiff} from '@/constants';
 
 function Genres() {
   const dispatch = useAppDispatch();
-  const films = useAppSelector(getFilms);
   const selectedGenre = useAppSelector(getSelectedGenre);
-  const availableGenres = Array.from(new Set(films.map((film) => film.genre)));
+  const availableGenres = useAppSelector(getGenres);
 
   const handleGenreClick = (genre: string | null) => {
     dispatch(setSelectedGenre(genre));

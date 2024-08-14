@@ -10,7 +10,7 @@ type ToggleFavoritePayload = {
 
 export const getFilms = createAsyncThunk<FilmListItem[], undefined, ThunkOptions>(
   'film/getFilms',
-  async (_arg, { extra: api }) => {
+  async (_arg, { extra: { api} }) => {
     const { data } = await api.get<FilmListItem[]>(ApiUrl.Films);
 
     return data;
@@ -19,7 +19,7 @@ export const getFilms = createAsyncThunk<FilmListItem[], undefined, ThunkOptions
 
 export const getFavorite = createAsyncThunk<FilmListItem[], undefined, ThunkOptions>(
   'film/getFavorite',
-  async (_arg, { extra: api }) => {
+  async (_arg, { extra: { api} }) => {
     const { data } = await api.get<FilmListItem[]>(ApiUrl.Favorite);
 
     return data;
@@ -28,7 +28,7 @@ export const getFavorite = createAsyncThunk<FilmListItem[], undefined, ThunkOpti
 
 export const toggleFavorite = createAsyncThunk<FilmFull, ToggleFavoritePayload, ThunkOptions>(
   'offer/toggleFavorite',
-  async ({filmId, status}, { extra: api }) => {
+  async ({filmId, status}, { extra: { api} }) => {
     const {data} = await api.post<FilmFull>(`${ApiUrl.Favorite}/${filmId}/${status}`);
 
     return data;
@@ -37,7 +37,7 @@ export const toggleFavorite = createAsyncThunk<FilmFull, ToggleFavoritePayload, 
 
 export const getPromo = createAsyncThunk<FilmPromo, undefined, ThunkOptions>(
   'film/getPromo',
-  async (_arg, { extra: api }) => {
+  async (_arg, { extra: { api} }) => {
     const { data } = await api.get<FilmPromo>(ApiUrl.Promo);
 
     return data;

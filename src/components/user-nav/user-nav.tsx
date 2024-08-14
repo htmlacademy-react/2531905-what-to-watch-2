@@ -1,4 +1,4 @@
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {AppRoute} from '@/constants';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {logout} from '@/store/user/api-actions';
@@ -6,17 +6,11 @@ import {useAppSelector} from '@/hooks/use-app-selector';
 import {getUser} from '@/store/user/selectors';
 
 function UserNav() {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUser);
 
   const handleLogoutClick = () => {
-    const payload = {
-      onSuccess: () => {
-        navigate(AppRoute.MainPage);
-      }
-    };
-    dispatch(logout(payload));
+    dispatch(logout());
   };
 
   return (
