@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AxiosError} from 'axios';
 
-import {ApiUrl} from '@/constants';
+import {ApiUrl, AppRoute} from '@/constants';
 import {dropToken, saveToken} from '@/services/token';
 import {getFavorite} from '@/store/film/api-actions';
 
@@ -9,13 +9,9 @@ import {AuthData, LoginError, UserData} from '@/types';
 import {ThunkOptions} from '@/types/state';
 import {clearFavorite} from '@/store/film/film';
 
-type LogoutPayload = {
-  onSuccess?: () => void;
-}
-
 export const checkAuth = createAsyncThunk<UserData, undefined, ThunkOptions>(
   'user/checkAuth',
-  async (_arg, { extra: api, dispatch}) => {
+  async (_arg, { extra: { api}, dispatch}) => {
     const {data} = await api.get<UserData>(ApiUrl.Login);
     dispatch(getFavorite());
 
@@ -25,7 +21,7 @@ export const checkAuth = createAsyncThunk<UserData, undefined, ThunkOptions>(
 
 export const login = createAsyncThunk<UserData | LoginError, AuthData, ThunkOptions>(
   'user/login',
-  async (payload, { extra: api, dispatch, rejectWithValue}) => {
+  async (payload, { extra: { api}, dispatch, rejectWithValue}) => {
     try {
       const {data} = await api.post<UserData>(ApiUrl.Login, payload);
       saveToken(data.token);
@@ -41,12 +37,12 @@ export const login = createAsyncThunk<UserData | LoginError, AuthData, ThunkOpti
   },
 );
 
-export const logout = createAsyncThunk<void, LogoutPayload, ThunkOptions>(
+export const logout = createAsyncThunk<void, undefined, ThunkOptions>(
   'user/logout',
-  async ({onSuccess}, { extra: api, dispatch}) => {
+  async (_arg, { extra: { api, router}, dispatch}) => {
     await api.delete(ApiUrl.Logout);
     dispatch(clearFavorite());
     dropToken();
-    onSuccess?.();
+    router.navigate(AppRoute.MainPage);
   },
 );
