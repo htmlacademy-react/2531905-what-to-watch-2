@@ -43,3 +43,8 @@ export enum FilmCountDiff {
   Increase = 1,
   Reset = 0,
 }
+
+export const ROLLBAR_CONFIG = {
+  accessToken: '2b3774040e63470fa37a2ce179b6d7b9',
+  environment: 'testenv',
+};
