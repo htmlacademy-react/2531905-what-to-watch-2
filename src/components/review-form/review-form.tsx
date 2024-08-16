@@ -3,9 +3,9 @@ import {toast} from 'react-toastify';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {getReviewRequestStatus} from '@/store/review/selectors';
-import {MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, RATING_STARS_COUNT, RequestStatus} from '@/constants';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {sendReview} from '@/store/review/api-actions';
+import {MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, RATING_STARS_COUNT, RequestStatus} from '@/constants';
 
 type ReviewFormProps = {
   filmId: string;

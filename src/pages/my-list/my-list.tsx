@@ -1,8 +1,8 @@
 import Header from '@/components/header/header';
-import {useAppSelector} from '@/hooks/use-app-selector';
-import {getFavorite} from '@/store/film/selectors';
 import Card from '@/components/card/card';
 import Footer from '@/components/footer/footer';
+import {useAppSelector} from '@/hooks/use-app-selector';
+import {getFavorite} from '@/store/film/selectors';
 
 function MyList() {
   const favorite = useAppSelector(getFavorite);
