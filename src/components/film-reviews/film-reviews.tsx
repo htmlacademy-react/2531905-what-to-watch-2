@@ -13,7 +13,7 @@ type FilmReviewsProps = {
 function FilmReviews({filmId}: FilmReviewsProps) {
   const dispatch = useAppDispatch();
   const reviews = useAppSelector(getReviewsList);
-  const half = reviews.length / 2;
+  const half = Math.floor(reviews.length / 2);
 
   const splitReviews = [
     {
