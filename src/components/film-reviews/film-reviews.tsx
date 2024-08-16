@@ -15,6 +15,17 @@ function FilmReviews({filmId}: FilmReviewsProps) {
   const reviews = useAppSelector(getReviewsList);
   const half = reviews.length / 2;
 
+  const splitReviews = [
+    {
+      id: 'first',
+      items: [...reviews.slice(half)],
+    },
+    {
+      id: 'second',
+      items: [...reviews.slice(0, half)],
+    }
+  ];
+
   useEffect(() => {
     dispatch(getReviews(filmId));
   }, [dispatch, filmId]);
@@ -28,58 +39,36 @@ function FilmReviews({filmId}: FilmReviewsProps) {
           </div>
         )
       }
-      <div className="film-card__reviews-col">
-        {
-          reviews.slice(half).map((review) => {
-            const date = formatDate(review.date);
+      {
+        splitReviews.map((list) => (
+          <div key={list.id} className="film-card__reviews-col">
+            {
+              list.items.map((review) => {
+                const date = formatDate(review.date);
 
-            return (
-              <div key={review.id} className="review">
-                <blockquote className="review__quote">
-                  <p className="review__text">
-                    {review.comment}
-                  </p>
+                return (
+                  <div key={review.id} className="review">
+                    <blockquote className="review__quote">
+                      <p className="review__text">
+                        {review.comment}
+                      </p>
 
-                  <footer className="review__details">
-                    <cite className="review__author">{review.user}</cite>
-                    <time className="review__date" dateTime={date.dateTime}>
-                      {date.dateText}
-                    </time>
-                  </footer>
-                </blockquote>
+                      <footer className="review__details">
+                        <cite className="review__author">{review.user}</cite>
+                        <time className="review__date" dateTime={date.dateTime}>
+                          {date.dateText}
+                        </time>
+                      </footer>
+                    </blockquote>
 
-                <div className="review__rating">{review.rating}</div>
-              </div>
-            );
-          })
-        }
-      </div>
-      <div className="film-card__reviews-col">
-        {
-          reviews.slice(0, half).map((review) => {
-            const date = formatDate(review.date);
-
-            return (
-              <div key={review.id} className="review">
-                <blockquote className="review__quote">
-                  <p className="review__text">
-                    {review.comment}
-                  </p>
-
-                  <footer className="review__details">
-                    <cite className="review__author">{review.user}</cite>
-                    <time className="review__date" dateTime={date.dateTime}>
-                      {date.dateText}
-                    </time>
-                  </footer>
-                </blockquote>
-
-                <div className="review__rating">{review.rating}</div>
-              </div>
-            );
-          })
-        }
-      </div>
+                    <div className="review__rating">{review.rating}</div>
+                  </div>
+                );
+              })
+            }
+          </div>
+        ))
+      }
     </div>
   );
 }
