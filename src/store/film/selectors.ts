@@ -13,3 +13,7 @@ export const getGenres = createSelector(
   getFilms,
   (films) => Array.from(new Set(films.map((film) => film.genre))).slice(0, 9),
 );
+export const getFavoriteCount = createSelector(
+  getFavorite,
+  (favorite) => favorite.length,
+);

@@ -1,3 +1,7 @@
+export const ROLLBAR_CONFIG = {
+  accessToken: '2b3774040e63470fa37a2ce179b6d7b9',
+  environment: 'testenv',
+};
 export enum AppRoute {
   MainPage = '/',
   LoginPage = '/login',
@@ -34,7 +38,7 @@ export enum RequestStatus {
 export enum NameSpace {
   Film = 'FILM',
   User = 'USER',
-  App = 'APP',
+  Review = 'REVIEW',
 }
 
 export const FILMS_INITIAL_LIMIT = 8;
@@ -44,7 +48,14 @@ export enum FilmCountDiff {
   Reset = 0,
 }
 
-export const ROLLBAR_CONFIG = {
-  accessToken: '2b3774040e63470fa37a2ce179b6d7b9',
-  environment: 'testenv',
-};
+export enum RatingText {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Awesome = 'Awesome',
+}
+
+export const RATING_STARS_COUNT = 10;
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 400;
