@@ -7,6 +7,7 @@ type FilmState = {
   films: FilmListItem[];
   favorite: FilmListItem[];
   filmsListStatus: RequestStatus;
+  favoriteStatus: RequestStatus;
   selectedGenre: string | null;
   filmsLimit: number;
   promoFilm: FilmPromo | null;
@@ -16,6 +17,7 @@ const initialState: FilmState = {
   films: [],
   favorite: [],
   filmsListStatus: RequestStatus.Idle,
+  favoriteStatus: RequestStatus.Idle,
   selectedGenre: null,
   filmsLimit: FILMS_INITIAL_LIMIT,
   promoFilm: null,
@@ -52,11 +54,16 @@ export const filmSlice = createSlice({
       .addCase(getFilms.rejected, (state) => {
         state.filmsListStatus = RequestStatus.Failed;
       })
+      .addCase(getFavorite.pending, (state) => {
+        state.favoriteStatus = RequestStatus.Pending;
+      })
       .addCase(getFavorite.fulfilled, (state, {payload}) => {
         state.favorite = payload;
+        state.favoriteStatus = RequestStatus.Success;
       })
       .addCase(getFavorite.rejected, (state) => {
         state.favorite = [];
+        state.favoriteStatus = RequestStatus.Failed;
       })
       .addCase(getPromo.fulfilled, (state, {payload}) => {
         state.promoFilm = payload;
