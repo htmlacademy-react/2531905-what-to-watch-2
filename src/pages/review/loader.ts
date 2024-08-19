@@ -1,9 +1,9 @@
-import {LoaderFunctionArgs} from 'react-router-dom';
+import {defer, LoaderFunctionArgs} from 'react-router-dom';
 import {resource} from '@/services/resource';
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export function loader({ params }: LoaderFunctionArgs) {
   const filmId = params.id as string;
-  const film = await resource.getFilm(filmId);
+  const film = resource.getFilm(filmId);
 
-  return film;
+  return defer({film});
 }

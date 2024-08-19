@@ -1,12 +1,12 @@
-import {LoaderFunctionArgs} from 'react-router-dom';
+import {defer, LoaderFunctionArgs} from 'react-router-dom';
 import {resource} from '@/services/resource';
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export function loader({ params }: LoaderFunctionArgs) {
   const filmId = params.id as string;
-  const film = await resource.getFilm(filmId);
-  const similar = await resource.getSimilarFilms(filmId);
+  const film = resource.getFilm(filmId);
+  const similar = resource.getSimilarFilms(filmId);
 
-  return {
+  return defer({
     film, similar
-  };
+  });
 }
