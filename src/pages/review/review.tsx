@@ -3,6 +3,7 @@ import ReviewForm from '@/components/review-form/review-form';
 import {Await, useLoaderData} from 'react-router-dom';
 import {FilmFull} from '@/types';
 import {Suspense} from 'react';
+import Loader from '@/components/loader/loader';
 
 type LoadedData = {
   film: FilmFull;
@@ -12,7 +13,7 @@ function Review() {
   const data = useLoaderData() as LoadedData;
 
   return (
-    <Suspense fallback={<p>Loading data...</p>}>
+    <Suspense fallback={<Loader />}>
       <Await resolve={data.film}>
         {(film: FilmFull) => (
           <section className="film-card film-card--full" style={{backgroundColor: film.backgroundColor}}>
