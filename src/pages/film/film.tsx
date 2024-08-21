@@ -10,6 +10,7 @@ import FilmOverview from '@/components/film-overview/film-overview';
 import FilmDetails from '@/components/film-details/film-details';
 import FilmReviews from '@/components/film-reviews/film-reviews';
 import {FilmFull, FilmListItem} from '@/types';
+import Loader from '@/components/loader/loader';
 
 type LoaderData = {
   film: FilmFull;
@@ -31,7 +32,7 @@ function Film() {
   }, [data]);
 
   return (
-    <Suspense fallback={<p>Loading film data...</p>}>
+    <Suspense fallback={<Loader />}>
       <Await resolve={data.film}>
         {(film: FilmFull) => (
           <section className="film-card film-card--full" style={{backgroundColor: film.backgroundColor}}>

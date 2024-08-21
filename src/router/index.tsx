@@ -11,6 +11,7 @@ import NotFound from '@/pages/not-found/not-found';
 import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
 import { loader as filmLoader} from '@/pages/film/loader';
+import { loader as playerLoader} from '@/pages/player/loader';
 import { loader as reviewLoader} from '@/pages/review/loader';
 
 export const router = createBrowserRouter([
@@ -50,7 +51,8 @@ export const router = createBrowserRouter([
   {
     path: AppRoute.PlayerPage,
     element: <Player />,
-    errorElement: <ErrorBoundary />
+    errorElement: <ErrorBoundary />,
+    loader: playerLoader,
   },
   {
     path: AppRoute.NotFoundPage,
