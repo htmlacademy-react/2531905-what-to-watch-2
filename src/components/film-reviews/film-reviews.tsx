@@ -42,7 +42,7 @@ function FilmReviews({filmId}: FilmReviewsProps) {
   if (status === RequestStatus.Pending) {
     return (
       <div className="film-card__reviews film-card__row">
-        <p>
+        <p className="film-card__details-value">
           Loading reviews...
         </p>
       </div>
