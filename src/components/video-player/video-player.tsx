@@ -42,9 +42,13 @@ function VideoPlayer({film}: VideoPlayerProps) {
     } else {
       document.documentElement.requestFullscreen();
     }
+    (document.activeElement as HTMLElement).blur();
   };
 
   const handleExitBtnClick = (id: string) => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
     const filmUrl = generatePath(AppRoute.FilmPage, {
       id,
     });
