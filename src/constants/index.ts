@@ -59,3 +59,5 @@ export enum RatingText {
 export const RATING_STARS_COUNT = 10;
 export const MIN_REVIEW_LENGTH = 50;
 export const MAX_REVIEW_LENGTH = 400;
+
+export const SPACE_CODE = 'Space';
