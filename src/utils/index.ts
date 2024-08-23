@@ -50,3 +50,17 @@ export const formatRunTime = (minutes: number): string => {
   const minutesString = min > 0 ? `${min}m` : '';
   return `${hoursString}${minutesString}`;
 };
+
+export const getDisplayedTime = (seconds: number) => {
+  if (seconds <= 0) {
+    return '00:00';
+  }
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor(seconds % 3600 / 60);
+  const restSeconds = Math.round(seconds % 60).toString().padStart(2, '0');
+
+  const hoursString = hours ? `${hours}:`.padStart(3, '0') : '';
+  const minutesString = `${minutes}:`.padStart(3, '0');
+
+  return `${hoursString}${minutesString}${restSeconds}`;
+};
