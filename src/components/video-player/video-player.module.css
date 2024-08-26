@@ -1,0 +1,11 @@
+.timeLine {
+  height: 4px;
+  background: rgba(255, 251, 231, .35);
+  cursor: pointer;
+}
+.timeLeft {
+  background: #d9cd8d;
+  height: 4px;
+  margin-top: -4px;
+  cursor: pointer;
+}

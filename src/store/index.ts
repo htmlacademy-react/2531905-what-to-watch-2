@@ -1,9 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './root-reducer';
-import {createAPI} from '@/services/api';
+import api from '@/services/api';
 import {router} from '@/router';
-
-export const api = createAPI();
 
 const extraArgument = {
   api,

@@ -1,0 +1,10 @@
+.mainBlock {
+  text-align: center;
+  font-size: 36px;
+}
+
+.mainBlock a {
+  text-decoration: none;
+  width: 300px;
+  margin: 15px auto;
+}

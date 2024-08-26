@@ -1,9 +1,13 @@
 import Header from '@/components/header/header';
 import {useAppSelector} from '@/hooks/use-app-selector';
 import {getPromoFilm} from '@/store/film/selectors';
-import FilmCardButtons from '@/components/film-card-buttons/film-card-buttons';
+import FilmDescription from '@/components/film-description/film-description';
 
-function PromoCard() {
+type PromoCardProps = {
+  showReview?: boolean;
+}
+
+function PromoCard({showReview = false}: PromoCardProps) {
   const promoFilm = useAppSelector(getPromoFilm);
 
   return promoFilm && (
@@ -22,16 +26,7 @@ function PromoCard() {
             <img src={promoFilm.posterImage} alt={`${promoFilm.name} poster`} width="218" height="327"/>
           </div>
 
-          <div className="film-card__desc">
-            <h2 className="film-card__title">
-              {promoFilm.name}
-            </h2>
-            <p className="film-card__meta">
-              <span className="film-card__genre">{promoFilm.genre}</span>
-              <span className="film-card__year">{promoFilm.released}</span>
-            </p>
-            <FilmCardButtons film={promoFilm} />
-          </div>
+          <FilmDescription film={promoFilm} showReview={showReview}/>
         </div>
       </div>
     </section>

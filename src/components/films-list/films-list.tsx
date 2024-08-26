@@ -1,9 +1,9 @@
 import Card from '@/components/card/card';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {getFilms, getFilmsLimit, getSelectedGenre} from '@/store/film/selectors';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {changeFilmsLimit} from '@/store/film/film';
+import {getFilms, getFilmsLimit, getSelectedGenre} from '@/store/film/selectors';
 import {FilmCountDiff} from '@/constants';
 
 function FilmsList() {
