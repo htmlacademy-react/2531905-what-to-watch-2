@@ -1,5 +1,5 @@
 import {generatePath, useNavigate} from 'react-router-dom';
-import {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FilmFull} from '@/types';
 import {getDisplayedTime} from '@/utils';
 import {AppRoute, SPACE_CODE} from '@/constants';
@@ -17,24 +17,61 @@ function VideoPlayer({film}: VideoPlayerProps) {
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
 
+  const timeLineRef = useRef<HTMLDivElement>(null);
+  const [toggleClicked, setToggleClicked] = useState(false);
+
   const timeLeftPercent = time / duration * 100;
+  const leftStyle = `${timeLeftPercent < 100 ? timeLeftPercent : 100}%`;
   const remainTimeDisplay = getDisplayedTime(duration - time);
 
   const handlePlayBtnClick = useCallback(() => {
+    const playerEl = playerRef.current;
     if (time < duration) {
       if (isPlaying) {
-        playerRef.current?.pause();
+        playerEl?.pause();
         setIsPlaying(false);
       } else {
-        playerRef.current?.play();
+        playerEl?.play();
         setIsPlaying(true);
       }
     } else {
       setTime(0);
-      playerRef.current?.play();
+      playerEl?.play();
       setIsPlaying(true);
     }
   }, [duration, isPlaying, time]);
+
+  const handlePlayerTimeUpdate = useCallback(() => {
+    if (time >= duration) {
+      playerRef.current?.pause();
+      setIsPlaying(false);
+      return;
+    }
+    if (isPlaying) {
+      const curTime = playerRef.current?.currentTime || 0;
+      setTime(Math.floor(curTime));
+    }
+  }, [duration, isPlaying, time]);
+
+
+  const handleTimeLineClick = useCallback((event: React.MouseEvent) => {
+    if (timeLineRef.current && playerRef.current) {
+      const offsetLeft = timeLineRef.current.offsetLeft ;
+      const width = timeLineRef.current.clientWidth;
+      const percent = (event.clientX - offsetLeft) / width;
+      const curTime = duration * percent;
+      setTime(Math.floor(curTime));
+      playerRef.current.currentTime = curTime;
+    }
+  }, [duration]);
+
+  const handleMouseMove = useCallback((event: MouseEvent) => {
+    if (toggleClicked) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      handleTimeLineClick(event);
+    }
+  }, [handleTimeLineClick, toggleClicked]);
 
   const handleFullscreenBtnClick = () => {
     if (document.fullscreenElement) {
@@ -55,12 +92,12 @@ function VideoPlayer({film}: VideoPlayerProps) {
     navigate(filmUrl);
   };
 
-  const handleTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (playerRef.current) {
-      const value = parseInt(event.target.value, 10);
-      playerRef.current.currentTime = value;
-      setTime(value);
-    }
+  const hangleTogglerMouseDown = () => {
+    setToggleClicked(true);
+  };
+
+  const hanglePlayerMouseUp = () => {
+    setToggleClicked(false);
   };
 
   const handleDataLoaded = () => {
@@ -69,21 +106,13 @@ function VideoPlayer({film}: VideoPlayerProps) {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (time > duration) {
-        playerRef.current?.pause();
-        setIsPlaying(false);
-        clearInterval(interval);
-        return;
-      }
-      if (isPlaying) {
-        setTime((prevTime) => prevTime + 1);
-      }
-    }, 1000);
+    const playerEl = playerRef.current;
+    playerEl?.addEventListener('timeupdate', handlePlayerTimeUpdate);
+
     return () => {
-      clearInterval(interval);
+      playerEl?.removeEventListener('timeupdate', handlePlayerTimeUpdate);
     };
-  }, [duration, isPlaying, time]);
+  }, [handlePlayerTimeUpdate]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -98,6 +127,16 @@ function VideoPlayer({film}: VideoPlayerProps) {
     };
   }, [handlePlayBtnClick]);
 
+  useEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', hanglePlayerMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', hanglePlayerMouseUp);
+    };
+  }, [handleMouseMove]);
+
   return (
     <div className="player">
       <video
@@ -106,7 +145,6 @@ function VideoPlayer({film}: VideoPlayerProps) {
         className="player__video"
         poster={film.posterImage}
         onLoadedData={handleDataLoaded}
-        onClick={handlePlayBtnClick}
       />
 
       <button type="button" className="player__exit" onClick={() => handleExitBtnClick(film.id)}>Exit</button>
@@ -114,15 +152,14 @@ function VideoPlayer({film}: VideoPlayerProps) {
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <input
-              type="range"
-              min="0"
-              max={duration}
-              value={time}
-              className={`${classes.playerRange} player__progress`}
-              onChange={handleTimeChange}
+            <div ref={timeLineRef} className={classes.timeLine} onClick={handleTimeLineClick}/>
+            <div className={classes.timeLeft} style={{width: leftStyle}} onClick={handleTimeLineClick}/>
+            <div
+              className="player__toggler"
+              style={{left: leftStyle}}
+              onMouseDown={hangleTogglerMouseDown}
+              onMouseUp={hanglePlayerMouseUp}
             />
-            <div className="player__toggler" style={{left: `${timeLeftPercent < 100 ? timeLeftPercent : 100}%`}}>Toggler</div>
           </div>
           <div className="player__time-value">
             {remainTimeDisplay}
@@ -131,23 +168,27 @@ function VideoPlayer({film}: VideoPlayerProps) {
 
         <div className="player__controls-row">
           {
-            isPlaying
-              ? (
-                <button type="button" className="player__play" onClick={handlePlayBtnClick}>
-                  <svg viewBox="0 0 14 21" width="14" height="21">
-                    <use xlinkHref="#pause"></use>
-                  </svg>
-                  <span>Pause</span>
-                </button>
-              )
-              : (
-                <button type="button" className="player__play" onClick={handlePlayBtnClick}>
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-              )
+            <button type="button" className="player__play" onClick={handlePlayBtnClick}>
+              {
+                isPlaying
+                  ? (
+                    <>
+                      <svg viewBox="0 0 14 21" width="14" height="21">
+                        <use xlinkHref="#pause"></use>
+                      </svg>
+                      <span>Pause</span>
+                    </>
+                  )
+                  : (
+                    <>
+                      <svg viewBox="0 0 19 19" width="19" height="19">
+                        <use xlinkHref="#play-s"></use>
+                      </svg>
+                      <span>Play</span>
+                    </>
+                  )
+              }
+            </button>
           }
           <div className="player__name">
             {film.name}

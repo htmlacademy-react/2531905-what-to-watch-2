@@ -1,49 +1,11 @@
-.playerRange {
-  /* removing default appearance */
-  -webkit-appearance: none;
-  appearance: none;
-  /* creating a custom design */
-  width: 100%;
+.timeLine {
+  height: 4px;
+  background: rgba(255, 251, 231, .35);
   cursor: pointer;
-  outline: none;
-  /*  slider progress trick  */
-  overflow: hidden;
-  border-radius: 16px;
 }
-
-/* Track: webkit browsers */
-.playerRange::-webkit-slider-runnable-track {
-  height: 15px;
-  background: rgba(255, 251, 231, .35);
-  border-radius: 16px;
-}
-
-/* Track: Mozilla Firefox */
-.playerRange::-moz-range-track {
-  height: 15px;
-  background: rgba(255, 251, 231, .35);
-  border-radius: 16px;
-}
-
-.playerRange::-webkit-slider-thumb {
-  /* removing default appearance */
-  -webkit-appearance: none;
-  appearance: none;
-  /* creating a custom design */
-  height: 15px;
-  width: 15px;
+.timeLeft {
   background: #d9cd8d;
-  border-radius: 50%;
-  /*  slider progress trick  */
-  box-shadow: -10000px 0 0 10000px #d9cd8d;
-}
-
-.playerRange::-moz-range-thumb {
-  height: 15px;
-  width: 15px;
-  background-color: rgba(255, 251, 231, .35);
-  border-radius: 50%;
-  border: 1px solid #d9cd8d;
-  /*  slider progress trick  */
-  box-shadow: -10000px 0 0 10000px #d9cd8d;
+  height: 4px;
+  margin-top: -4px;
+  cursor: pointer;
 }
