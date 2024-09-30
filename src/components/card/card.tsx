@@ -53,6 +53,7 @@ function Card({
     >
       <div className="small-film-card__image">
         <video
+          className={showPreview ? 'is_playing' : 'not_playing'}
           ref={videoRef}
           src={previewVideoLink}
           poster={previewImage}
@@ -61,6 +62,7 @@ function Card({
           muted
           loop
           preload="auto"
+          data-testid="video"
         >
           Sorry, your browser does not support embedded videos
         </video>

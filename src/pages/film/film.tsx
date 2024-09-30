@@ -46,7 +46,7 @@ function Film() {
               <Header className="film-card__head"/>
 
               <div className="film-card__wrap">
-                <FilmDescription film={film} showReview/>
+                <FilmDescription film={film}/>
               </div>
             </div>
 

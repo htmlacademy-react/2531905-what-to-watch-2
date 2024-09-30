@@ -3,11 +3,8 @@ import {useAppSelector} from '@/hooks/use-app-selector';
 import {getPromoFilm} from '@/store/film/selectors';
 import FilmDescription from '@/components/film-description/film-description';
 
-type PromoCardProps = {
-  showReview?: boolean;
-}
 
-function PromoCard({showReview = false}: PromoCardProps) {
+function PromoCard() {
   const promoFilm = useAppSelector(getPromoFilm);
 
   return promoFilm && (
@@ -26,7 +23,7 @@ function PromoCard({showReview = false}: PromoCardProps) {
             <img src={promoFilm.posterImage} alt={`${promoFilm.name} poster`} width="218" height="327"/>
           </div>
 
-          <FilmDescription film={promoFilm} showReview={showReview}/>
+          <FilmDescription film={promoFilm}/>
         </div>
       </div>
     </section>

@@ -8,7 +8,7 @@ type FilmOverviewProps = {
 function FilmOverview({film}: FilmOverviewProps) {
   return (
     <>
-      <div className="film-rating">
+      <div className="film-rating" data-testid="film-rating">
         <div className="film-rating__score">{film.rating.toFixed(1)}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{getTextByRating(film.rating)}</span>
@@ -16,7 +16,7 @@ function FilmOverview({film}: FilmOverviewProps) {
         </p>
       </div>
 
-      <div className="film-card__text">
+      <div className="film-card__text" data-testid="film-text">
         <p>{film.description}</p>
 
         <p className="film-card__director"><strong>Director: {film.director}</strong></p>

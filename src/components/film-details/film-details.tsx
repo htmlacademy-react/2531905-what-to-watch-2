@@ -8,7 +8,7 @@ type FilmDetailsProps = {
 
 function FilmDetails({film}: FilmDetailsProps) {
   return (
-    <div className="film-card__text film-card__row">
+    <div className="film-card__text film-card__row" data-testid="film-card">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
