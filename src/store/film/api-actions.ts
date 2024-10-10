@@ -26,19 +26,19 @@ export const getFavorite = createAsyncThunk<FilmListItem[], undefined, ThunkOpti
   }
 );
 
-export const toggleFavorite = createAsyncThunk<FilmFull, ToggleFavoritePayload, ThunkOptions>(
-  'offer/toggleFavorite',
-  async ({filmId, status}, { extra: { api} }) => {
-    const {data} = await api.post<FilmFull>(`${ApiUrl.Favorite}/${filmId}/${status}`);
+export const getPromo = createAsyncThunk<FilmPromo, undefined, ThunkOptions>(
+  'film/getPromo',
+  async (_arg, { extra: { api} }) => {
+    const { data } = await api.get<FilmPromo>(ApiUrl.Promo);
 
     return data;
   }
 );
 
-export const getPromo = createAsyncThunk<FilmPromo, undefined, ThunkOptions>(
-  'film/getPromo',
-  async (_arg, { extra: { api} }) => {
-    const { data } = await api.get<FilmPromo>(ApiUrl.Promo);
+export const toggleFavorite = createAsyncThunk<FilmFull, ToggleFavoritePayload, ThunkOptions>(
+  'offer/toggleFavorite',
+  async ({filmId, status}, { extra: { api} }) => {
+    const {data} = await api.post<FilmFull>(`${ApiUrl.Favorite}/${filmId}/${status}`);
 
     return data;
   }

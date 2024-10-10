@@ -1,9 +1,9 @@
 import Card from '@/components/card/card';
 
 import {useAppSelector} from '@/hooks/use-app-selector';
-import {getFilms, getFilmsLimit, getSelectedGenre} from '@/store/film/selectors';
 import {useAppDispatch} from '@/hooks/use-app-dispatch';
 import {changeFilmsLimit} from '@/store/film/film';
+import {getFilms, getFilmsLimit, getSelectedGenre} from '@/store/film/selectors';
 import {FilmCountDiff} from '@/constants';
 
 function FilmsList() {
@@ -20,7 +20,7 @@ function FilmsList() {
 
   return (
     <>
-      <div className="catalog__films-list">
+      <div className="catalog__films-list" data-testid="films-list">
         {
           films.slice(0, limit).map((film) => <Card key={film.id} film={film}/>)
         }

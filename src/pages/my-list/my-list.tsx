@@ -1,130 +1,57 @@
+import {toast} from 'react-toastify';
+import {useEffect} from 'react';
+
+import Header from '@/components/header/header';
+import Card from '@/components/card/card';
+import Footer from '@/components/footer/footer';
+import {useAppSelector} from '@/hooks/use-app-selector';
+import {getFavorite, getFavoriteStatus} from '@/store/film/selectors';
+import {RequestStatus} from '@/constants';
+
 function MyList() {
+  const favorite = useAppSelector(getFavorite);
+  const favoriteListStatus = useAppSelector(getFavoriteStatus);
+
+  useEffect(() => {
+    if (favoriteListStatus === RequestStatus.Failed) {
+      toast.error('Error occurred while loading favorite list');
+    }
+  }, [favoriteListStatus]);
+
+  const getPageContent = () => {
+    if (favoriteListStatus === RequestStatus.Pending) {
+      return <p>Loading films...</p>;
+    }
+    return favorite.length === 0
+      ? (
+        <div className="catalog__title">
+          <p className="page-title">
+            No film added to the list.
+          </p>
+          <p>
+            You can add film to the list by clicking on the &quot;+ My List&quot; button
+            on the &quot;Film&quot; page and on the main page for the promo film.
+          </p>
+        </div>
+      )
+      : favorite.map((film) => <Card key={film.id} film={film}/>);
+  };
+
   return (
     <div className="user-page">
-      <header className="page-header user-page__head">
-        <div className="logo">
-          <a href="main.html" className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-            </div>
-          </li>
-          <li className="user-block__item">
-            <a className="user-block__link">Sign out</a>
-          </li>
-        </ul>
-      </header>
+      <Header className="user-page__head" showList />
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-            </h3>
-          </article>
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
-            </h3>
-          </article>
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Macbeth</a>
-            </h3>
-          </article>
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/aviator.jpg" alt="Aviator" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Aviator</a>
-            </h3>
-          </article>
-
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/we-need-to-talk-about-kevin.jpg" alt="We need to talk about Kevin" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">We need to talk about Kevin</a>
-            </h3>
-          </article>
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/what-we-do-in-the-shadows.jpg" alt="What We Do in the Shadows" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">What We Do in the Shadows</a>
-            </h3>
-          </article>
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/revenant.jpg" alt="Revenant" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Revenant</a>
-            </h3>
-          </article>
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/johnny-english.jpg" alt="Johnny English" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Johnny English</a>
-            </h3>
-          </article>
-
-
-          <article className="small-film-card catalog__films-card">
-            <div className="small-film-card__image">
-              <img src="img/shutter-island.jpg" alt="Shutter Island" width="280" height="175"/>
-            </div>
-            <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Shutter Island</a>
-            </h3>
-          </article>
+          {
+            getPageContent()
+          }
         </div>
       </section>
 
-      <footer className="page-footer">
-        <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

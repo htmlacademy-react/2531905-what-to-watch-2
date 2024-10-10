@@ -1,6 +1,5 @@
 import {generatePath, Link} from 'react-router-dom';
 import {useEffect, useRef, useState} from 'react';
-import clsx from 'clsx';
 
 import {FilmListItem} from '@/types';
 import {AppRoute} from '@/constants';
@@ -19,32 +18,32 @@ function Card({
 }: CardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showPreview, setShowPreview] = useState<boolean>(false);
-  const [canPlay, setCanPlay] = useState<boolean>(false);
   const filmUrl = generatePath(AppRoute.FilmPage, {
     id: id,
   });
 
   const handleMouseEnter = () => {
-    setCanPlay(true);
+    setShowPreview(true);
   };
 
   const handleMouseLeave = () => {
-    setCanPlay(false);
     setShowPreview(false);
   };
 
   useEffect(() => {
+    const videoPlayer = videoRef.current;
+
     const playTimeout = setTimeout(() => {
-      if (canPlay) {
-        videoRef.current?.load();
-        setShowPreview(true);
+      if (showPreview && videoPlayer) {
+        videoPlayer.play();
       }
     }, 1000);
     return () => {
+      videoPlayer?.pause();
+      videoPlayer?.load();
       clearTimeout(playTimeout);
-      setShowPreview(false);
     };
-  }, [canPlay]);
+  }, [showPreview]);
 
   return (
     <article
@@ -54,19 +53,19 @@ function Card({
     >
       <div className="small-film-card__image">
         <video
+          className={showPreview ? 'is_playing' : 'not_playing'}
           ref={videoRef}
-          className={clsx(!showPreview && 'visually-hidden')}
           src={previewVideoLink}
+          poster={previewImage}
           width="280"
           height="175"
-          autoPlay
           muted
           loop
           preload="auto"
+          data-testid="video"
         >
           Sorry, your browser does not support embedded videos
         </video>
-        <img className={clsx(showPreview && 'visually-hidden')} src={previewImage} alt={name}/>
       </div>
       <h3 className="small-film-card__title">
         <Link to={filmUrl} className="small-film-card__link">

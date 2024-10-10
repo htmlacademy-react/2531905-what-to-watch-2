@@ -4,7 +4,7 @@ import {getToken} from './token';
 const BACKEND_URL = 'https://13.design.htmlacademy.pro/wtw';
 const REQUEST_TIMEOUT = 5000;
 
-export const createAPI = (): AxiosInstance => {
+const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -24,3 +24,8 @@ export const createAPI = (): AxiosInstance => {
 
   return api;
 };
+
+const api = createAPI();
+
+export { createAPI };
+export default api;

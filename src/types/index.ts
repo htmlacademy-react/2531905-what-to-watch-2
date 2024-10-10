@@ -60,3 +60,11 @@ export type FilmFull = {
   released: number;
   isFavorite: boolean;
 }
+
+export type ReviewItem = {
+  id: string;
+  date: string;
+  user: string;
+  comment: string;
+  rating: number;
+}

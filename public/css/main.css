@@ -866,7 +866,8 @@ main {
   color: #EEE5B5;
   text-decoration: none;
   position: relative;
-  padding-bottom: 19px; }
+  padding-bottom: 19px;
+  cursor: pointer}
   .film-nav__link::after {
     content: '';
     position: absolute;
