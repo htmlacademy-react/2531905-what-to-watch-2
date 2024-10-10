@@ -35,7 +35,7 @@ function Film() {
     <Suspense fallback={<Loader />}>
       <Await resolve={data.film}>
         {(film: FilmFull) => (
-          <section className="film-card film-card--full" style={{backgroundColor: film.backgroundColor}}>
+          <section className="film-card film-card--full" style={{backgroundColor: film.backgroundColor}} data-testid="film-page-container">
             <div className="film-card__hero">
               <div className="film-card__bg">
                 <img src={film.backgroundImage} alt={film.name}/>

@@ -23,7 +23,7 @@ function Genres() {
       </li>
       {
         availableGenres.map((genre) => (
-          <li key={genre} className={clsx('catalog__genres-item', selectedGenre === genre && 'catalog__genres-item--active')}>
+          <li key={genre} data-testid="genre-item" className={clsx('catalog__genres-item', selectedGenre === genre && 'catalog__genres-item--active')}>
             <a className="catalog__genres-link" onClick={() => handleGenreClick(genre)}>{genre}</a>
           </li>
         ))

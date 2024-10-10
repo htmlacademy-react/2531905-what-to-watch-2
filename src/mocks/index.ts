@@ -1,5 +1,5 @@
-import {datatype, lorem, internet, image, name} from 'faker';
-import {FilmFull, FilmListItem, FilmPromo} from '@/types';
+import {datatype, lorem, internet, image, name, date} from 'faker';
+import {FilmFull, FilmListItem, FilmPromo, ReviewItem} from '@/types';
 import {Action} from '@reduxjs/toolkit';
 import {AuthorizationStatus, FILMS_INITIAL_LIMIT, RequestStatus} from '@/constants';
 import {State} from '@/types/state';
@@ -43,6 +43,14 @@ export const makeFakeFilmFull = (): FilmFull => ({
   isFavorite: datatype.boolean(),
 } as FilmFull);
 
+export const makeFakeReview = (): ReviewItem => ({
+  id: datatype.uuid(),
+  date: date.recent().toString(),
+  user: name.findName(),
+  comment: lorem.words(10),
+  rating:datatype.number({ min: 1, max: 10 }),
+} as ReviewItem);
+
 export const initFilmState = (data = {}) => ({
   films: [],
   favorite: [],
@@ -59,6 +67,13 @@ export const initUserState = (data = {}) => ({
   requestStatus: RequestStatus.Idle,
   loginResponseErrors: [],
   user: null,
+  ...data,
+});
+
+export const initReviewState = (data = {}) => ({
+  reviews: [],
+  reviewRequestStatus: RequestStatus.Idle,
+  reviewsListStatus: RequestStatus.Idle,
   ...data,
 });
 

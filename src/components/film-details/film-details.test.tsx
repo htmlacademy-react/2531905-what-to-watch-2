@@ -2,7 +2,7 @@ import {makeFakeFilmFull} from '@/mocks';
 import FilmDetails from '@/components/film-details/film-details';
 import {render, screen} from '@testing-library/react';
 
-describe('Component: FilmCardButtons', () => {
+describe('Component: FilmDetails', () => {
   it('should render correct', () => {
     const film = makeFakeFilmFull();
 

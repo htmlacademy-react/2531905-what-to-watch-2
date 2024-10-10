@@ -50,7 +50,7 @@ function FilmReviews({filmId}: FilmReviewsProps) {
   }
 
   return (
-    <div className="film-card__reviews film-card__row">
+    <div className="film-card__reviews film-card__row" data-testid="reviews-container">
       {
         reviews.length === 0
           ? (
@@ -59,13 +59,13 @@ function FilmReviews({filmId}: FilmReviewsProps) {
             </div>
           )
           : splitReviews.map((list) => (
-            <div key={list.id} className="film-card__reviews-col">
+            <div key={list.id} className="film-card__reviews-col" data-testid="reviews-col">
               {
                 list.items.map((review) => {
                   const date = formatDate(review.date);
 
                   return (
-                    <div key={review.id} className="review">
+                    <div key={review.id} className="review" data-testid="reviews-item">
                       <blockquote className="review__quote">
                         <p className="review__text">
                           {review.comment}

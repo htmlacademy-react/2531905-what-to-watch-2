@@ -138,7 +138,7 @@ function VideoPlayer({film}: VideoPlayerProps) {
   }, [handleMouseMove]);
 
   return (
-    <div className="player">
+    <div className="player" data-testid="video-player">
       <video
         ref={playerRef}
         src={film.videoLink}
@@ -147,7 +147,7 @@ function VideoPlayer({film}: VideoPlayerProps) {
         onLoadedData={handleDataLoaded}
       />
 
-      <button type="button" className="player__exit" onClick={() => handleExitBtnClick(film.id)}>Exit</button>
+      <button type="button" className="player__exit" onClick={() => handleExitBtnClick(film.id)} data-testid="exitBtn">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

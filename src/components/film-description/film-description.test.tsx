@@ -3,7 +3,7 @@ import {withHistory, withStore} from '@/mocks/mock-component';
 import {render, screen} from '@testing-library/react';
 import FilmDescription from '@/components/film-description/film-description';
 
-describe('Component: FilmCardButtons', () => {
+describe('Component: FilmDescription', () => {
   it('should render correct', () => {
     const film = makeFakePromoFilm();
 
